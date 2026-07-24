@@ -1,0 +1,11 @@
+# Local configuration and Python artifacts
+.env
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Raw and generated data are reproducible but too large for source control.
+data/raw/*
+!data/raw/.gitkeep
+data/processed/
