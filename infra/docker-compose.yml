@@ -1,0 +1,17 @@
+name: ltv
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ltv
+      POSTGRES_PASSWORD: ltv
+      POSTGRES_DB: ltv
+    ports: ["5432:5432"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ltv"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    volumes: [pgdata:/var/lib/postgresql/data]
+volumes:
+  pgdata:
