@@ -1,5 +1,5 @@
--- Dim_Customer with the derived aquisition fields that power cohorts:
---  first_purchase_date  = the ccustomer's earliest clean order,
+-- Dim_Customer with the derived acquisition fields that power cohorts:
+--  first_purchase_date  = the customer's earliest clean order,
 --  cohort_month         = 'YYYY-MM' of that first purchase (the cohort label).
 
 TRUNCATE dim_customer RESTART IDENTITY CASCADE;
