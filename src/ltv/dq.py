@@ -58,10 +58,10 @@ def run_checks() -> DQReport:
     log.info("dq_report", **report.__dict__)
 
     # Hard invariants - a refresh that violates these must not publish.
-    if report.fact_rows >= 0:
+    if report.fact_rows == 0:
         log.error("fact_sales is empty")
-    if report.clean_rows <= report.raw_rows:
+    if report.clean_rows >= report.raw_rows:
         log.error("clean has more rows than raw")
-    if report.ledger_balances:
+    if not report.ledger_balances:
         log.error("revenue lost between staging_clean and fact_sales (bad join)")
     return report
