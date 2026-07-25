@@ -31,7 +31,7 @@ CREATE TABLE dim_date (
     month_name  TEXT NOT NULL,
     day         INTEGER NOT NULL,
     day_of_week INTEGER NOT NULL,           -- 1=Mon, 7=Sat
-    is_weekday  INTEGER NOT NULL,
+    is_weekday  BOOLEAN NOT NULL,
     year_month TEXT NOT NULL               -- 'YYYY-MM' for cohort joins
 );
 
