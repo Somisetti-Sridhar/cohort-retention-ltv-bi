@@ -51,7 +51,7 @@ def build(raw_path: str | None = None) -> dict:
     # 1) schema (also creates staging_raw), 2) load raw 3) the rest of the SQL transforms.with
     run_sql_file(SQL_DIR / "00_schema.sql")
     load_staging(df)
-    for step in SQL_STEPS[1:3]:
+    for step in SQL_STEPS[1:4]:
         run_sql_file(SQL_DIR / step)
         log.info(f"Ran stage {step}")
     
