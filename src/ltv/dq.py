@@ -23,7 +23,8 @@ class DQReport:
     cancellations_removed: int
     fact_rows: int
     customers: int
-    ledger_balances: bool # fact line_revenue total == staging_clean total (no rows lost in joins)
+    ledger_balances: bool  # fact line_revenue total == staging_clean total (no rows lost in joins)
+
 
 def run_checks() -> DQReport:
     eng = get_engine()
@@ -46,14 +47,14 @@ def run_checks() -> DQReport:
         ).scalar_one()
 
     report = DQReport(
-        raw_rows = raw,
-        clean_rows = clean,
-        dropped_rows = raw - clean,
-        null_customers_pct = round(100 * null_cust/raw, 2) if raw else 0.0,
-        cancellations_removed = cancels,
-        fact_rows = fact,
-        customers = custs,
-        ledger_balances = abs(float(clean_rev) - float(fact_rev)) < 0.01,
+        raw_rows=raw,
+        clean_rows=clean,
+        dropped_rows=raw - clean,
+        null_customers_pct=round(100 * null_cust / raw, 2) if raw else 0.0,
+        cancellations_removed=cancels,
+        fact_rows=fact,
+        customers=custs,
+        ledger_balances=abs(float(clean_rev) - float(fact_rev)) < 0.01,
     )
     log.info("dq_report", **report.__dict__)
 

@@ -9,12 +9,11 @@ generated so the warehouse builds end-to-end..
 
 from __future__ import annotations
 
-import structlog
-
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
+import structlog
 
 from ltv.config import get_settings
 from ltv.logging_config import get_logger
@@ -36,7 +35,7 @@ CANNONICAL: list[str] = [
 def load_raw(path: str | Path | None = None) -> pd.DataFrame:
     path = Path(path or get_settings().raw_path)
     if path.exists():
-        log.info("loading_online_retail_ii", path = str(path))
+        log.info("loading_online_retail_ii", path=str(path))
         df = pd.read_csv(path)
         # df = pd.concat(sheets.values(), ignore_index=True)
         return _normalize(df)
@@ -73,8 +72,18 @@ def generate_synthetic(n_customers: int = 1500, seed: int = 42) -> pd.DataFrame:
     products = [
         (f"SKU{1000 + i}", name)
         for i, name in enumerate(
-            ["WHITE MUG", "RED LANTERN", "JUMBO BAG", "PHOTO FRAME", "CANDLE SET",
-             "TEA TOWEL", "NOTEBOOK", "GLASS JAR", "WALL CLOCK", "CUSHION COVER"]
+            [
+                "WHITE MUG",
+                "RED LANTERN",
+                "JUMBO BAG",
+                "PHOTO FRAME",
+                "CANDLE SET",
+                "TEA TOWEL",
+                "NOTEBOOK",
+                "GLASS JAR",
+                "WALL CLOCK",
+                "CUSHION COVER",
+            ]
         )
     ]
     start = pd.Timestamp("2009-12-01")
@@ -82,8 +91,8 @@ def generate_synthetic(n_customers: int = 1500, seed: int = 42) -> pd.DataFrame:
     invoice_no = 500000
 
     for cust in range(1, n_customers + 1):
-        first_month = int(rng.integers(0, 22)) # acquired within a ~2yr window
-        acq = start + pd.DateOffset(months = first_month)
+        first_month = int(rng.integers(0, 22))  # acquired within a ~2yr window
+        acq = start + pd.DateOffset(months=first_month)
         country = countries[int(rng.integers(0, len(countries)))]
         # Number of active months follows a geometric districbution => natural churn.
         lifetime_months = 1 + int(rng.geometric(0.35))
@@ -93,9 +102,11 @@ def generate_synthetic(n_customers: int = 1500, seed: int = 42) -> pd.DataFrame:
             # skip some months are customers do not but every month
             if m > 0 and rng.random() < 0.48:
                 continue
-            order_date = acq + pd.DateOffset(months=m) + pd.to_timedelta(int(rng.integers(0, 27)), unit="D")
+            order_date = (
+                acq + pd.DateOffset(months=m) + pd.to_timedelta(int(rng.integers(0, 27)), unit="D")
+            )
             if order_date > start + pd.DateOffset(months=24):
-                break # we need data for 2 years
+                break  # we need data for 2 years
             invoice_no += 1
             n_lines = 1 + int(rng.integers(0, 4))
             for _ in range(n_lines):
@@ -114,16 +125,16 @@ def generate_synthetic(n_customers: int = 1500, seed: int = 42) -> pd.DataFrame:
                         "country": country,
                     }
                 )
-    
+
     # inject a few cancellations (negative qty) and some missing customer ids
     df = pd.DataFrame(rows)
-    cancels = df.sample(frac = 0.02, random_state = seed).copy()
+    cancels = df.sample(frac=0.02, random_state=seed).copy()
     cancels["invoice"] = "C" + cancels["invoice"]
     cancels["quantity"] = -cancels["quantity"]
-    df = pd.concat([df, cancels], ignore_index = True)
-    null_idx = df.sample(frac = 0.03, random_state = seed + 1).index
+    df = pd.concat([df, cancels], ignore_index=True)
+    null_idx = df.sample(frac=0.03, random_state=seed + 1).index
     df.loc[null_idx, "customer_id"] = np.nan
 
-    df = df[CANNONICAL].sort_values("invoice_date").reset_index(drop = True)
-    log.info("synthetic generated", rows=len(df), customers = n_customers)
+    df = df[CANNONICAL].sort_values("invoice_date").reset_index(drop=True)
+    log.info("synthetic generated", rows=len(df), customers=n_customers)
     return df

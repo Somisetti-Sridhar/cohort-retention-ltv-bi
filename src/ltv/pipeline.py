@@ -37,7 +37,7 @@ def load_staging(df: pd.DataFrame) -> None:
     """Bulk-load the raw frame into (already-create staging_raw table)"""
     df = df.copy()
     df["invoice_date"] = pd.to_datetime(df["invoice_date"])
-    df.to_sql("staging_raw", get_engine(), if_exists="append", index=False, chunksize = 10_000)
+    df.to_sql("staging_raw", get_engine(), if_exists="append", index=False, chunksize=10_000)
     log.info("staging_loaded", rows=len(df))
 
 
@@ -54,7 +54,7 @@ def build(raw_path: str | None = None) -> dict:
     for step in SQL_STEPS[1:]:
         run_sql_file(SQL_DIR / step)
         log.info(f"Ran stage {step}")
-    
+
     report = run_checks()
     log.info("pipeline_complete", fact_rows=report.fact_rows, customers=report.customers)
     return report.__dict__

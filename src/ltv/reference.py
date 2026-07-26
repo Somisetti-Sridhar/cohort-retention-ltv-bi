@@ -46,7 +46,9 @@ def rfm(lines: pd.DataFrame, as_of: pd.Timestamp | None = None) -> pd.DataFrame:
     )
     g["recency_days"] = (as_of - g["last_purchase"]).dt.days
     # recent => high R; quintiles
-    g["r_score"] = pd.qcut(g["recency_days"].rank(method="first", ascending=False), 5, labels=False) + 1
+    g["r_score"] = (
+        pd.qcut(g["recency_days"].rank(method="first", ascending=False), 5, labels=False) + 1
+    )
     g["f_score"] = pd.qcut(g["frequency"].rank(method="first"), 5, labels=False) + 1
     g["m_score"] = pd.qcut(g["monetary"].rank(method="first"), 5, labels=False) + 1
 
