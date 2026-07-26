@@ -71,7 +71,7 @@ scored AS (
         c.frequency,
         c.monetary,
         NTILE(5) OVER (ORDER BY ((SELECT d FROM as_of) - c.last_purchase) DESC) AS r_score,
-        NTILE(5) OVER (ORDERBY c.frequency ASC) AS f_score,
+        NTILE(5) OVER (ORDER BY c.frequency ASC) AS f_score,
         NTILE(5) OVER (ORDER BY c.monetary ASC) AS m_score
     FROM cust c
 )
