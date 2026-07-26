@@ -86,3 +86,50 @@ SELECT
         ELSE 'Needs Attention'
     END AS rfm_segment
 FROM scored s;
+
+
+-- LTV per cohort (and the cumulative curve)
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+DROP VIEW IF EXISTS v_cohort_ltv CASCADE;
+CREATE VIEW v_cohort_ltv AS
+WITH rev AS (
+    SELECT
+        dc.cohort_month,
+        (EXTRACT(YEAR FROM dd.date) * 12 + EXTRACT(MONTH FROM dd.date))
+        - (EXTRACT(YEAR FROM TO_DATE(dc.cohort_month, 'YYYY-MM')) * 12 + EXTRACT(MONTH FROM TO_DATE(dc.cohort_month, 'YYYY-MM'))) AS month_n,
+        f.line_revenue
+    FROM fact_sales f
+    JOIN dim_customer   dc ON dc.customer_key = f.customer_key
+    JOIN dim_date      dd ON dd.date_key = f.date_key
+),
+by_month AS (
+    SELECT cohort_month, month_n::INT AS month_n, SUM(line_revenue) AS revenue
+    FROM rev
+    GROUP BY cohort_month, month_n
+),
+sizes AS (
+    SELECT cohort_month, COUNT(DISTINCT customer_key) AS cohort_size
+    FROM dim_customer GROUP BY cohort_month
+)
+SELECT
+    b.cohort_month,
+    b.month_n,
+    s.cohort_size,
+    ROUND(b.revenue, 2) AS revenue,
+    ROUND(SUM(b.revenue) OVER (PARTITION BY b.cohort_month ORDER BY b.month_n), 2) AS cumulative_revenue,
+    ROUND(SUM(b.revenue) OVER (PARTITION BY b.cohort_month ORDER BY b.month_n)
+        / NULLIF(s.cohort_size, 0), 2) AS cumulative_ltv_per_customer
+    FROM by_month b 
+    JOIN sizes s USING (cohort_month);
+
+
+-- Headline KPIs
+-- -- -- -- -- --
+DROP VIEW IF EXISTS v_kpis CASCADE;
+CREATE VIEW v_kpis AS
+SELECT
+    ROUND(SUM(line_revenue), 2)     AS total_revenue,
+    COUNT(DISTINCT customer_key)    AS distinct_customers,
+    COUNT(DISTINCT invoice)         AS orders,
+    ROUND(SUM(line_revenue) / NULLIF(COUNT(DISTINCT invoice), 0), 2)                          AS avg_order_value
+FROM fact_sales;
