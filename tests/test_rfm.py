@@ -40,3 +40,9 @@ def test_scores_are_in_range_and_monotonic() -> None:
     assert hi_freq >= lo_freq
 
 
+def test_champion_definition() -> None:
+    df = _synthetic_lines()
+    out = rfm(df)
+    champs = out[out["rfm_segment"] == "Champions"]
+    assert (champs["r_score"] >= 4).all()
+    assert (champs["f_score"] >= 4).all()
