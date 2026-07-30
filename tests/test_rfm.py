@@ -13,7 +13,7 @@ def _synthetic_lines(n: int = 400, seed: int = 1) -> pd.DataFrame:
     rng = np.random.default_rng(seed)
     rows = []
     base = pd.Timestamp("2011-12-01")
-    for cust in range(1, n+ 1):
+    for cust in range(1, n + 1):
         n_orders = int(rng.integers(1, 12))
         recency = int(rng.integers(0, 400))
         for o in range(n_orders):

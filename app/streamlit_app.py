@@ -61,12 +61,18 @@ if page == "Acquisition & Retention":
 
 elif page == "Segmentation (RFM)":
     st.subheader("Revenue & customers by RFM segment")
-    seg = q("SELECT * FROM agg_rfm_segments" if USE_SPARK_AGGREGATES else (
-        "SELECT rfm_segment, COUNT(*) AS customers, ROUND(SUM(monetary),2) AS revenue "
-        "FROM v_rfm GROUP BY rfm_segment ORDER BY revenue DESC"
-    ))
+    seg = q(
+        "SELECT * FROM agg_rfm_segments"
+        if USE_SPARK_AGGREGATES
+        else (
+            "SELECT rfm_segment, COUNT(*) AS customers, ROUND(SUM(monetary),2) AS revenue "
+            "FROM v_rfm GROUP BY rfm_segment ORDER BY revenue DESC"
+        )
+    )
     st.altair_chart(
-        alt.Chart(seg).mark_bar().encode(
+        alt.Chart(seg)
+        .mark_bar()
+        .encode(
             x=alt.X("revenue:Q", title="Revenue"),
             y=alt.Y("rfm_segment:N", sort="-x", title=""),
             tooltip=["rfm_segment", "customers", "revenue"],
@@ -82,7 +88,9 @@ else:
         + ("agg_cohort_ltv" if USE_SPARK_AGGREGATES else "v_cohort_ltv")
     )
     st.altair_chart(
-        alt.Chart(ltv).mark_line(point=True).encode(
+        alt.Chart(ltv)
+        .mark_line(point=True)
+        .encode(
             x=alt.X("month_n:O", title="Months since acquisition"),
             y=alt.Y("cumulative_ltv_per_customer:Q", title="Cumulative LTV / customer"),
             color="cohort_month:N",

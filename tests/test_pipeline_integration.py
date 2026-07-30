@@ -1,4 +1,4 @@
-"""Integrations: build the full warehouse in a real Postgres 
+"""Integrations: build the full warehouse in a real Postgres
 and prove the SQL views match the independent pandas oracle.
 Self-skips when Docker/testcontainers is unavailable"""
 
@@ -45,9 +45,9 @@ def test_sql_views_match_pandas_oracle() -> None:
         raw = generate_synthetic()
         clean = raw[(raw["quantity"] > 0) & (raw["price"] > 0) & raw["customer_id"].notna()]
         clean = clean[~clean["invoice"].astype(str).str.startswith("C")]
-        orders = orders.rename(columns = {
-            "invoice_date": "order_date"
-        })[["customer_id", "order_date"]]
+        orders = orders.rename(columns={"invoice_date": "order_date"})[
+            ["customer_id", "order_date"]
+        ]
         expected = cohort_retention(orders)
 
         sql = pd.read_sql(
@@ -60,10 +60,10 @@ def test_sql_views_match_pandas_oracle() -> None:
         sql_m0 = sql[sql["month_n"] == 0].set_indes("cohort_month")["cohort_size"]
         exp_m0 = expected[expected["month_n"] == 0].set_index("cohort_month")["cohort_size"]
         common = sql_m0.index.intersection(exp_m0.index)
-        assert len(common) > 0 
+        assert len(common) > 0
         pd.testing.assert_series_equal(
             sql_m0.loc[common].sort_index(),
             exp_m0.loc[common].sort_index(),
-            check_names = False,
-            check_dtype = False,
+            check_names=False,
+            check_dtype=False,
         )
