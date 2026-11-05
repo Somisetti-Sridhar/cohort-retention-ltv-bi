@@ -1,0 +1,87 @@
+{
+  "verified_at_utc": "2026-11-04T18:02:48.050294+00:00",
+  "synthetic": false,
+  "sources": [
+    {
+      "url": "https://archive.ics.uci.edu/static/public/502/online+retail+ii.zip",
+      "path": "data/raw/online_retail_ii.zip",
+      "bytes": 45622418,
+      "sha256": "572e36277c2390fbfde10664750731e0a86f55e33470d91919085f0408e67bfb",
+      "table": "retail",
+      "rows": 1067371,
+      "parquet_sha256": "4763ce36dbdf7ad73657029ec8c967e144775bf4f4d25d074b215ad259647128"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/bradleyboehmke/completejourney/5b5d06192b9856edd04e4d405787af2f2e4a1fef/data/transactions.rds",
+      "path": "data/raw/transactions.rds",
+      "bytes": 12775661,
+      "sha256": "1fa0700033f1e5d9bb6b09e2be063d8d68474d346e95c50f2833e09d083e0007",
+      "table": "transactions",
+      "rows": 1469307,
+      "parquet_sha256": "c4072b8cf2cbbde692619afe37c5cb1d92f411366073bae33605502b3d1ae6d9"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/bradleyboehmke/completejourney/5b5d06192b9856edd04e4d405787af2f2e4a1fef/data/products.rda",
+      "path": "data/raw/products.rda",
+      "bytes": 869019,
+      "sha256": "a80c6df33623b4af296ae9f317a6647e369db7e8ce7e7baed0e1bf44b9d979e5",
+      "table": "products",
+      "rows": 92331,
+      "parquet_sha256": "32b4ab6894f3e50364ae618be9f19599d013aa662588058593e213890f5b3b6d"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/bradleyboehmke/completejourney/5b5d06192b9856edd04e4d405787af2f2e4a1fef/data/demographics.rda",
+      "path": "data/raw/demographics.rda",
+      "bytes": 4237,
+      "sha256": "8b80455bc841003b64e47f5e5c2221f6093b995e923d59e72a1f852c7e268980",
+      "table": "demographics",
+      "rows": 801,
+      "parquet_sha256": "2ee285fe9b1ce66677b405535cd21f8f2b23abcc7a046f032edf18cd044a3b78"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/bradleyboehmke/completejourney/5b5d06192b9856edd04e4d405787af2f2e4a1fef/data/campaigns.rda",
+      "path": "data/raw/campaigns.rda",
+      "bytes": 8264,
+      "sha256": "33c7b3dc1bc722d465f97416fb1327c6a9a640190e464c73e354bce8c001a772",
+      "table": "campaigns",
+      "rows": 6589,
+      "parquet_sha256": "5d4db7775c6f8d0f652370df654abd843b0d577917b4cb160b42fff30092ae1b"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/bradleyboehmke/completejourney/5b5d06192b9856edd04e4d405787af2f2e4a1fef/data/campaign_descriptions.rda",
+      "path": "data/raw/campaign_descriptions.rda",
+      "bytes": 496,
+      "sha256": "601bd17ea1a6de92cc288f393164813fbaf293b997d44054dcf1f3ebbe8dacee",
+      "table": "campaign_descriptions",
+      "rows": 27,
+      "parquet_sha256": "0db6b38cd17c3ee2110ce515e8237bfbdfd8b64079905926ee12655e155e1d24"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/bradleyboehmke/completejourney/5b5d06192b9856edd04e4d405787af2f2e4a1fef/data/coupons.rda",
+      "path": "data/raw/coupons.rda",
+      "bytes": 324969,
+      "sha256": "4d87effce5b8813c0934b581a83292707347577743320ca746878de89cc16f34",
+      "table": "coupons",
+      "rows": 116204,
+      "parquet_sha256": "5296059b85ccbb09068a99f879e3f02f320106403453bf91be06af07aec8e742"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/bradleyboehmke/completejourney/5b5d06192b9856edd04e4d405787af2f2e4a1fef/data/coupon_redemptions.rda",
+      "path": "data/raw/coupon_redemptions.rda",
+      "bytes": 8370,
+      "sha256": "4b68148175ed19300bb2615d68d1a0300a5f971db3240819ab5d92e5919e1598",
+      "table": "coupon_redemptions",
+      "rows": 2102,
+      "parquet_sha256": "6a2b6c9f9e4629e9a4283da95490235427d09f7bfc4dfcb76863fbf93c9ea2d4"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/bradleyboehmke/completejourney/5b5d06192b9856edd04e4d405787af2f2e4a1fef/data/promotions.rds",
+      "path": "data/raw/promotions.rds",
+      "bytes": 24976951,
+      "sha256": "15a729fdad31b10d3afedb058da31bcd6e9e68cb0207a43b3121264cd80198ba",
+      "table": "promotions",
+      "rows": 20940529,
+      "parquet_sha256": "da2d0516b82a9f299bc7aee66192adbf7161ca2e866b809c2690b216ce9b0950"
+    }
+  ]
+}

@@ -54,14 +54,14 @@ def rfm(lines: pd.DataFrame, as_of: pd.Timestamp | None = None) -> pd.DataFrame:
 
     def seg(row: pd.Series) -> str:
         r, f = row["r_score"], row["f_score"]
+        if r <= 2 and f >= 3:
+            return "At-Risk"
         if r >= 4 and f >= 4:
             return "Champions"
         if f >= 4:
             return "Loyal"
         if r >= 4:
             return "Promising"
-        if r <= 2 and f >= 3:
-            return "At-Risk"
         if r <= 2 and f <= 2:
             return "Lost"
         return "Needs Attention"

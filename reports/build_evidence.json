@@ -1,0 +1,35 @@
+{
+  "built_at_utc": "2026-11-04T18:06:00.708474+00:00",
+  "elapsed_seconds": 12.96,
+  "checks": {
+    "nonempty_sources": true,
+    "orders_reconcile": true,
+    "journey_join_preserves_rows": true,
+    "retail_dispositions_reconcile": true,
+    "retention_bounds": true,
+    "cohort_revenue_reconciles": true,
+    "identity_unique": true,
+    "promotion_join_preserves_revenue": true
+  },
+  "summary": [
+    {
+      "source": "journey",
+      "currency": "USD",
+      "customers": 2469,
+      "orders": 155368.0,
+      "revenue": 4596027.06,
+      "first_observed": "2017-01-01 11:53:26",
+      "last_observed": "2018-01-01 04:01:20"
+    },
+    {
+      "source": "retail",
+      "currency": "GBP",
+      "customers": 5878,
+      "orders": 36969.0,
+      "revenue": 17374804.25,
+      "first_observed": "2009-12-01 07:45:00",
+      "last_observed": "2011-12-09 12:50:00"
+    }
+  ],
+  "fact_lines": 2237457
+}

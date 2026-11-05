@@ -47,7 +47,7 @@ JOIN cohort_sizes cs USING (cohort_month);
 
 -- RFM segmentation
 -- -- -- -- -- -- --
-DROP VIEW IF EXISTS v_frm CASCADE;
+DROP VIEW IF EXISTS v_rfm CASCADE;
 CREATE VIEW v_rfm AS
 WITH as_of AS (
     SELECT MAX(dd.date) AS d FROM fact_sales f JOIN dim_date dd
@@ -78,10 +78,10 @@ scored AS (
 SELECT
     s.*,
     CASE
+        WHEN r_score <= 2 AND f_score >= 3 THEN 'At-Risk'
         WHEN r_score >= 4 AND f_score >= 4 THEN 'Champions'
         WHEN f_score >= 4                  THEN 'Loyal'
         WHEN r_score >= 4                  THEN 'Promising'
-        WHEN r_score <= 2 AND f_score >= 3 THEN 'At-Risk'
         WHEN r_score <= 2 AND f_score <= 2 THEN 'Lost'
         ELSE 'Needs Attention'
     END AS rfm_segment

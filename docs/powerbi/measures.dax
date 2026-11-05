@@ -1,0 +1,27 @@
+// Create each measure separately. DimSource has one row per source/currency.
+Revenue = IF(HASONEVALUE(DimSource[source]), SUM(mart_monthly[revenue]))
+
+Orders = IF(HASONEVALUE(DimSource[source]), SUM(mart_monthly[orders]))
+
+Average order value = DIVIDE([Revenue], [Orders])
+
+Returning cohort revenue share =
+IF(HASONEVALUE(DimSource[source]),
+    DIVIDE(SUM(mart_monthly[returning_cohort_revenue]), SUM(mart_monthly[revenue])))
+
+Retention =
+IF(HASONEVALUE(DimSource[source]) && HASONEVALUE(mart_cohorts[month_n]),
+    DIVIDE(SUM(mart_cohorts[active_customers]), SUM(mart_cohorts[cohort_size])))
+
+Observed revenue per customer =
+IF(HASONEVALUE(DimSource[source]) && HASONEVALUE(mart_cohorts[month_n]),
+    DIVIDE(SUMX(mart_cohorts, mart_cohorts[cumulative_revenue_per_customer] * mart_cohorts[cohort_size]),
+           SUM(mart_cohorts[cohort_size])))
+
+Repeat purchase 90d =
+IF(HASONEVALUE(DimSource[source]),
+    DIVIDE(SUM(mart_repeat[repeated_90d]), SUM(mart_repeat[eligible_customers])))
+
+Campaign household redemption =
+IF(HASONEVALUE(mart_campaigns[campaign_id]),
+    DIVIDE(SUM(mart_campaigns[redeeming_households]), SUM(mart_campaigns[targeted_households])))
