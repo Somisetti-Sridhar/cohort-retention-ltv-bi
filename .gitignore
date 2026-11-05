@@ -9,11 +9,3 @@ __pycache__/
 data/raw/*
 !data/raw/.gitkeep
 data/processed/
-data/bronze/
-data/gold/
-data/spark/
-data/*.duckdb*
-data/*.json
-*.partial
-.ruff_cache/
-artifacts/

@@ -7,6 +7,6 @@ INSERT INTO dim_product (stock_code, description, category)
 SELECT
     stock_code,
     MIN(description) as description,
-    'Unclassified' AS category -- source has no authoritative product taxonomy
+    INITCAP(SPLIT_PART(COALESCE(MIN(description), 'Unknown'), '', 1)) AS category
 FROM staging_clean
 GROUP BY stock_code;

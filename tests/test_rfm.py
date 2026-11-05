@@ -19,7 +19,7 @@ def _synthetic_lines(n: int = 400, seed: int = 1) -> pd.DataFrame:
         for o in range(n_orders):
             rows.append(
                 {
-                    "customer_id": cust,
+                    "customers_id": cust,
                     "invoice": f"{cust}-{o}",
                     "order_date": base - pd.Timedelta(days=recency + o),
                     "line_revenue": float(rng.uniform(10, 500)),
